@@ -1,4 +1,4 @@
-FROM tomcat:9.0.83-jdk8-temurin-jammy
+FROM tomcat:9.0-jdk17-temurin-focal
 
 ENV PORT=8080
 ENV NODE_VERSION=v14
