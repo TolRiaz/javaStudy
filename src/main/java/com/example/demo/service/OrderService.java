@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class OrderService {
 
+    @Autowired
     private final ItemRepository    itemRepository;
     private final MemberRepository  memberRepository;
     private final OrderRepository   orderRepository;
@@ -95,7 +97,7 @@ public class OrderService {
         order.orderCancle();
     }
 
-    public Long orders(List<OrderDto> orderDtoList, String email) {
+    public Long order(List<OrderDto> orderDtoList, String email) {
 
         // 로그인한 유저 조회
         Member member = memberRepository.findByEmail(email);
