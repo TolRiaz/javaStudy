@@ -22,7 +22,7 @@ public class OrderItem extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 왜 Many(orderItem) To One(item) 인지 모르겠음 ;; => 한 가지 아이템을 여러개 주문 할 수 있어서 ;;
+    @ManyToOne(fetch = FetchType.LAZY) // 왜 Many(orderItem) To One(item) 인지 모르겠음 ;; => 한 가지 아이템을 여러개 주문 할 수 있어서!
     @JoinColumn(name = "item_id")
     private Item item;
 
