@@ -1,8 +1,10 @@
 package com.example.demo.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter @Setter
 public class CartListDto {
 
@@ -12,6 +14,7 @@ public class CartListDto {
     private int     count;
     private String  imgUrl;
 
+/*
     public CartListDto( Long cartItemId, String itemName, int price, int count, String imgUrl) {
         this.cartItemId = cartItemId;
         this.itemName = itemName;
@@ -19,5 +22,6 @@ public class CartListDto {
         this.count = count;
         this.imgUrl = imgUrl;
     }
+ */
 
 }
