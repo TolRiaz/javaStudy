@@ -79,7 +79,8 @@ class OrderTest {
         // 5. 3개의 OrderItem 객체를 담고있는 Order 객체 저장
         orderRepository.saveAndFlush(order);
 
-        em.clear();
+        em.clear();     // clear 는 엔티티는 그대로 두고 내부의 데이터만 비움
+                        // close 는 엔티티도 해제하여 더이상 사용할 수 없는 상태로 만듦
 
         List<OrderItem> savedOrderItems = orderItemRepository.findAll();
         Order savedOrder = orderRepository.findById(order.getId())
@@ -89,5 +90,57 @@ class OrderTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    public Order createOrder() {
+        Order order = new Order();
+
+        for (int i=0; i<3; i++) {
+            Item item = createItem();
+            itemRepository.save(item);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setCount(10);
+            orderItem.setOrderPrice(1000);
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        }
+
+        Member member = new Member();
+        memberRepository.save(member);
+        order.setMember(member);
+        orderRepository.save(order);
+
+        return order;
+    }
+
+    @Test
+    @DisplayName("즉시 로딩 테스트")
+    public void eagerLoadingTest() {
+        Order order = this.createOrder();
+        Long orderItem_id = order.getOrderItems().get(0).getId();
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItem_id)
+                .orElseThrow(EntityNotFoundException::new);
+        // System.out.println("item" + orderItem.getItem());
+    }
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    public void lazyLoadingTest() {
+        Order order = this.createOrder();
+        Long orderItem_id = order.getOrderItems().get(0).getId();
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItem_id)
+                .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class: " + orderItem.getOrder().getClass());
+        System.out.println("============================");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("============================");
+
+    }
 
 }
