@@ -2,12 +2,11 @@ package com.example.demo.service;
 
 import java.io.IOException;
 
-// import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.constatnt.Url;
 import com.example.demo.entity.ItemImg;
 import com.example.demo.repository.ItemImgRepository;
 
@@ -20,9 +19,8 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class ItemImgService {
 
-    // @Value("${itemImgLocation}")     // from application.properties
-    // private String itemImgLocation;
-    private String itemImgLocation = Url.IMAGE.getUrl();
+    @Value("${itemImgLocation}")     // from application.properties
+    private String itemImgLocation;
 
     private final FileService fileService;
     private final ItemImgRepository itemImgRepository;
@@ -36,8 +34,7 @@ public class ItemImgService {
         // file upload
         if (!StringUtils.isEmpty(oriImgName)) {
             imgName = fileService.UploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
-            // imgUrl = "/images/item/" + imgName;
-            imgUrl = Url.IMAGE.getUrl(imgName);
+            imgUrl = itemImgLocation + imgName;
         }
 
         // 상품 이미지 저장
@@ -58,7 +55,7 @@ public class ItemImgService {
 
             String oriImgName = itemImgFile.getOriginalFilename();
             String imgName    = fileService.UploadFile(oriImgName, oriImgName, itemImgFile.getBytes());
-            String imgUrl     = Url.IMAGE.getUrl(imgName);
+            String imgUrl     = itemImgLocation + imgName;
             savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
         }
     }

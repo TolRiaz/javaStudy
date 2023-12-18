@@ -39,7 +39,7 @@ public class OrderService {
     private final ItemImgRepository itemImgRepository;
 
     // 단일 상품 주문
-    public long order(OrderDto orderDto, String email) {
+    public Long order(OrderDto orderDto, String email) {
 
         // OrderItem(List) 객체 생성
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -97,7 +97,8 @@ public class OrderService {
         order.orderCancle();
     }
 
-    public Long order(List<OrderDto> orderDtoList, String email) {
+    // 장바구니 상품(들) 주문
+    public Long orders(List<OrderDto> orderDtoList, String email) {
 
         // 로그인한 유저 조회
         Member member = memberRepository.findByEmail(email);
